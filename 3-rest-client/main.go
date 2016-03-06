@@ -32,7 +32,10 @@ type user struct {
 }
 
 func main() {
-	resp, err := http.Get("http://www.omdbapi.com/?i=tt0372784&plot=short&r=json")
+	imdbcode := "tt0372784"
+	plot := "short"
+	r := "json"
+	resp, err := http.Get("http://www.omdbapi.com/?i=" + imdbcode + "&plot=" + plot + "&r=" + r)
 	if err != nil {
 		fmt.Println(err)
 	}
