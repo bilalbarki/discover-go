@@ -24,7 +24,6 @@ func (r *user) details() {
 }
 
 func main() {
-
 	u := user{"Betty Holberton", "March 7, 1917", "Philadelphia"}
 	u.helloName()
 	u.details()

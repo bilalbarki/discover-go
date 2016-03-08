@@ -31,6 +31,5 @@ func main() {
 		fmt.Println(err)
 	}
 	i = (i / 10) * 100
-
 	fmt.Printf("The movie : %s was released in %s - the IMDB rating is %d%% with %s votes\n", m.Title, m.Year, int(i), m.ImdbVotes)
 }
