@@ -19,9 +19,8 @@ func (r *user) details() {
 	DOB, err := time.Parse("January 2, 2006", r.DOB)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Printf("%s who was born in %s would be %d years old today.\n", r.Name, r.City, time.Now().Year()-DOB.Year())
 	}
+	fmt.Printf("%s who was born in %s would be %d years old today.\n", r.Name, r.City, time.Now().Year()-DOB.Year())
 }
 
 func main() {
@@ -29,6 +28,4 @@ func main() {
 	u := user{"Betty Holberton", "March 7, 1917", "Philadelphia"}
 	u.helloName()
 	u.details()
-	//value := u.DOB
-	//layout := "January 2, 2006"
 }

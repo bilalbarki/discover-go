@@ -59,16 +59,12 @@ func req(imdbcode string) {
 		fmt.Println(err)
 	}
 
-	i, err3 := strconv.ParseFloat(m.ImdbRating, 32)
-	i = (i / 10) * 100
+	i, err3 := strconv.ParseFloat(m.ImdbRating, 64)
 	if err3 != nil {
 		fmt.Println(err)
 	}
-	y := int(i)
-	if (int(i*10))%10 >= 5 {
-		y++
-	}
-	fmt.Printf("The movie : %s was released in %s - the IMDB rating is %d%% with %s votes\n", m.Title, m.Year, y, m.ImdbVotes)
+	i = i * 10
+	fmt.Printf("The movie : %s was released in %s - the IMDB rating is %d%% with %s votes\n", m.Title, m.Year, int(i), m.ImdbVotes)
 }
 func main() {
 	moviePtr := flag.String("movie", "batman", "a string")

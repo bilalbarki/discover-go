@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
-	"time"
 )
 
 var wg sync.WaitGroup
@@ -53,27 +52,23 @@ func req(imdbcode string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer resp.Body.Close()
 	var m user
 	err2 := json.Unmarshal(body, &m)
 	if err2 != nil {
 		fmt.Println(err)
 	}
 
-	i, err3 := strconv.ParseFloat(m.ImdbRating, 32)
-	i = (i / 10) * 100
+	i, err3 := strconv.ParseFloat(m.ImdbRating, 64)
 	if err3 != nil {
 		fmt.Println(err)
 	}
-	y := int(i)
-	if (int(i*10))%10 >= 5 {
-		y++
-	}
-	fmt.Printf("The movie : %s was released in %s - the IMDB rating is %d%% with %s votes\n", m.Title, m.Year, y, m.ImdbVotes)
+	i = i * 10
+	fmt.Printf("The movie : %s was released in %s - the IMDB rating is %d%% with %s votes\n", m.Title, m.Year, int(i), m.ImdbVotes)
 }
 func main() {
 	moviePtr := flag.String("movie", "batman", "a string")
@@ -82,11 +77,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer resp.Body.Close()
 	var m movie
 	err2 := json.Unmarshal(body, &m)
 	if err2 != nil {
@@ -95,6 +90,6 @@ func main() {
 	for i := 0; i < len(m.Search); i++ {
 		wg.Add(1)
 		go req(m.Search[i].ImdbID)
-		time.Sleep(time.Second * 5)
 	}
+	wg.Wait()
 }
