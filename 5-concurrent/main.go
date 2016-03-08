@@ -7,8 +7,11 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 type movie struct {
 	Search []struct {
@@ -45,6 +48,7 @@ func req(imdbcode string) {
 		Type       string `json:"Type"`
 		Response   string `json:"Response"`
 	}
+	defer wg.Done()
 	resp, err := http.Get("http://www.omdbapi.com/?i=" + imdbcode + "&plot=short&r=json")
 	if err != nil {
 		fmt.Println(err)
@@ -89,6 +93,7 @@ func main() {
 		fmt.Println(err)
 	}
 	for i := 0; i < len(m.Search); i++ {
+		wg.Add(1)
 		go req(m.Search[i].ImdbID)
 		time.Sleep(time.Second * 5)
 	}

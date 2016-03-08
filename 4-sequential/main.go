@@ -48,11 +48,11 @@ func req(imdbcode string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer resp.Body.Close()
 	var m user
 	err2 := json.Unmarshal(body, &m)
 	if err2 != nil {
@@ -77,11 +77,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer resp.Body.Close()
 	var m movie
 	err2 := json.Unmarshal(body, &m)
 	if err2 != nil {
